@@ -1,0 +1,25 @@
+version: "3"
+  
+servies:
+## Front End System
+  traefik:
+    container_name: nlb
+    image: traefik:v2.5
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - /pathto/custom/traefik.yml:/etc/traefik/traefik.yml
+      - /var/run/docker.sock:/var/run/docker.sock \
+    ports:
+      - 8080:8080
+      - 80:80
+      - 443:443
+    restart: always
+    
+## Backend IP Lookup
+  traefik-ip:
+    container_name: ip-lookup
+    image: traefik/whoami
+    environment:
+      - TZ=America/New_York
+    restart: always
